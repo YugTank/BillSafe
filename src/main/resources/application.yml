@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: billsafe
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/billsafe
+    username: postgres
+    password: admin123
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    default-schema: public
+    schema:
+      -public
+      -auth
+      -purchase
+      -notification
+      -analytics
+  jwt:
+    secret: 4jVh5i5GHR7piL6sjcOgjBbI9MqTWKDlmjFJEmXKdN5
+    expiration: 86400000
+  logging:
+    level:
+      org.springframework.security: DEBUG
