@@ -4,6 +4,7 @@ import com.billsafe.billsafe.auth.dto.RegisterRequest;
 import com.billsafe.billsafe.auth.dto.RegisterResponse;
 import com.billsafe.billsafe.auth.entity.User;
 import com.billsafe.billsafe.auth.repository.UserRepository;
+import com.billsafe.billsafe.common.exception.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class RegisterService {
         String password=registerRequest.getPassword();
 
         if(userRepository.existsByEmail(email)) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistException("User already exists");
         }
 
         User user= User.builder()

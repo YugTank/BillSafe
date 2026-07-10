@@ -20,21 +20,17 @@ public class JwtService {
     private long expiration;
 
     private SecretKey getSignInKey() {
-        System.out.println(secret);
         byte[] keyBytes = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(String email) {
-        System.out.println(secret);
-        String jwts= Jwts.builder()
+        return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();
-        System.out.println(jwts);
-        return jwts;
     }
 
     private Claims extractClaims(String token) {

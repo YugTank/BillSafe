@@ -33,14 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         String token=authHeader.substring(7);
-        System.out.println("Received: " + token);
-        System.out.println(jwtService.isTokenValid(token));
+
         if(!jwtService.isTokenValid(token)){
             filterChain.doFilter(request, response);
             return;
         }
         String email=jwtService.extractEmail(token);
-        System.out.println(email);
         UserDetails userDetails=customUserDetailsService.loadUserByUsername(email);
 
         if(SecurityContextHolder.getContext().getAuthentication()==null){
