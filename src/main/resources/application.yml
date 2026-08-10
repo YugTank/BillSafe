@@ -3,9 +3,9 @@ spring:
     name: billsafe
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/billsafe
-    username: postgres
-    password: admin123
+    url: jdbc:postgresql://${DB_HOST:host.docker.internal}:${DB_PORT:5432}/${DB_NAME:billsafe}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:admin123}
 
   jpa:
     hibernate:
@@ -30,3 +30,15 @@ spring:
 
   file:
     upload-dir: uploads
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

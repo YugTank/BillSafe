@@ -1,11 +1,15 @@
 package com.billsafe.billsafe.purchase.controller;
 
 import com.billsafe.billsafe.purchase.dto.CreatePurchaseRequest;
+import com.billsafe.billsafe.purchase.dto.PurchaseFilterRequest;
 import com.billsafe.billsafe.purchase.dto.PurchaseResponse;
 import com.billsafe.billsafe.purchase.dto.UpdatePurchaseRequest;
 import com.billsafe.billsafe.purchase.service.PurchaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +27,10 @@ public class PurchaseController {
         return purchaseService.createPurchase(createPurchaseRequest);
     }
 
-    @GetMapping
-    public List<PurchaseResponse> getMyPurchase() {
-        return purchaseService.getMyPurchase();
-    }
+//    @GetMapping
+//    public List<PurchaseResponse> getMyPurchase() {
+//        return purchaseService.getMyPurchase();
+//    }
 
     @GetMapping("/{id}")
     public Optional<PurchaseResponse> getPurchaseById(@PathVariable UUID id) {
@@ -41,5 +45,10 @@ public class PurchaseController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable UUID id) {
         purchaseService.deleteById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<PurchaseResponse>> searchPurchase(PurchaseFilterRequest request, Pageable pageable){
+        return ResponseEntity.ok(purchaseService.searchPurchase(request, pageable));
     }
 }
