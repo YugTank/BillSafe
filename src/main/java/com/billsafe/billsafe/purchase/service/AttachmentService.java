@@ -6,6 +6,7 @@ import com.billsafe.billsafe.common.exception.FileStorageException;
 import com.billsafe.billsafe.common.exception.PurchaseNotFoundException;
 import com.billsafe.billsafe.common.security.CurrentUserService;
 import com.billsafe.billsafe.purchase.dto.AttachmentResponse;
+import com.billsafe.billsafe.purchase.dto.AttachmentUploadResponse;
 import com.billsafe.billsafe.purchase.entity.Attachment;
 import com.billsafe.billsafe.purchase.entity.AttachmentType;
 import com.billsafe.billsafe.purchase.entity.Purchase;
@@ -32,7 +33,7 @@ public class AttachmentService {
     private final CurrentUserService currentUserService;
     private final StorageService storageService;
 
-    public void uploadAttachment(UUID purchaseId, MultipartFile file, AttachmentType attachmentType){
+    public AttachmentUploadResponse uploadAttachment(UUID purchaseId, MultipartFile file, AttachmentType attachmentType){
         User user=currentUserService.getCurrentUser();
         Purchase purchase=purchaseRepository.getByIdAndUser(purchaseId, user).orElseThrow(()->new PurchaseNotFoundException("Purchase not found"));
 
@@ -52,6 +53,7 @@ public class AttachmentService {
                 .build();
 
         attachment=attachmentRepository.save(attachment);
+        return new AttachmentUploadResponse(attachment.getId(), "Attachment uploaded successfully");
     }
 
     public List<AttachmentResponse> getAttachments(UUID purchaseId){
@@ -71,12 +73,10 @@ public class AttachmentService {
         User user=currentUserService.getCurrentUser();
         Attachment attachment=attachmentRepository.findByIdAndPurchase_User(attachmentId,user).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
 
-        try{
-            Path path= Paths.get(attachment.getFilePath());
-            return new UrlResource(path.toUri());
-        }
-        catch (MalformedURLException e){
-            throw new FileStorageException("Failed to download attachment",e);
-        }
+        return storageService.download(attachment.getFilePath());
+    }
+
+    public Attachment findAttachmentById(UUID attachmentId) {
+        return attachmentRepository.findById(attachmentId).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
     }
 }

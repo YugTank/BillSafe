@@ -1,6 +1,7 @@
 package com.billsafe.billsafe.purchase.controller;
 
 import com.billsafe.billsafe.purchase.dto.AttachmentResponse;
+import com.billsafe.billsafe.purchase.dto.AttachmentUploadResponse;
 import com.billsafe.billsafe.purchase.entity.AttachmentType;
 import com.billsafe.billsafe.purchase.service.AttachmentService;
 import org.springframework.core.io.Resource;
@@ -19,8 +20,8 @@ public class AttachmentController {
     private final AttachmentService attachmentService;
 
     @PostMapping("/{purchaseId}/attachments")
-    public void uploadAttachment(@PathVariable UUID purchaseId, @RequestParam("file") MultipartFile file, @RequestParam("type") AttachmentType attachmentType){
-         attachmentService.uploadAttachment(purchaseId,file,attachmentType);
+    public AttachmentUploadResponse uploadAttachment(@PathVariable UUID purchaseId, @RequestParam("file") MultipartFile file, @RequestParam("type") AttachmentType attachmentType){
+         return attachmentService.uploadAttachment(purchaseId,file,attachmentType);
     }
 
     @GetMapping("/{purchaseId}/attachments")
@@ -32,9 +33,8 @@ public class AttachmentController {
     @GetMapping("/{attachmentId}/download")
     public ResponseEntity<Resource> download(@PathVariable UUID attachmentId){
         Resource resource=attachmentService.downloadAttachment(attachmentId);
-
         return ResponseEntity.ok()
-                .header("Content-Disposition", "attachment; filename=\""+resource.getFilename()+ "\"")
+                .header("Content-Disposition", "attachment; filename=\""+attachmentService.findAttachmentById(attachmentId).getFileName()+ "\"")
                 .body(resource);
     }
 }

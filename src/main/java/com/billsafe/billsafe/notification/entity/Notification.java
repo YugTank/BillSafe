@@ -33,4 +33,7 @@ public class Notification {
 
     private LocalDate reminderDate;
 
+    @Column(nullable = false)
+    private int retryCount=0;
+
 }

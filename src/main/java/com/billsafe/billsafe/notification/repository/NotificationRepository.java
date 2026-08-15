@@ -12,5 +12,5 @@ import java.util.UUID;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, UUID> {
 
-    List<Notification> findByStatusAndReminderDateLessThanEqual(NotificationStatus status, LocalDate date);
+    List<Notification> findByStatusInAndReminderDateLessThanEqual(List<NotificationStatus> statuses, LocalDate date);
 }

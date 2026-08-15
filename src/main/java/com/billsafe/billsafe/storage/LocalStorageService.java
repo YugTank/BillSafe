@@ -1,6 +1,7 @@
 package com.billsafe.billsafe.storage;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,5 +51,10 @@ public class LocalStorageService implements StorageService{
         catch (IOException e){
             throw new FileStorageException("Failed to delete file",e);
         }
+    }
+
+    @Override
+    public Resource download(String filepath){
+        return  null;
     }
 }
