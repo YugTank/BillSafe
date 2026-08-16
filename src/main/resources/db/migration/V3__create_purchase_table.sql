@@ -12,5 +12,5 @@ CREATE TABLE purchase.purchases(
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_purchase_user FOREIGN KEY (user_id) REFERENCES auth.users(id)
+    CONSTRAINT fk_purchase_user FOREIGN KEY (user_id) REFERENCES billsafe_auth.users(id)
 )

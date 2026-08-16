@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users", schema = "auth")
+@Table(name = "users", schema = "billsafe_auth")
 @Getter
 @Setter
 @AllArgsConstructor

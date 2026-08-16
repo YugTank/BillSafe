@@ -1,4 +1,4 @@
-CREATE SCHEMA auth;
+CREATE SCHEMA billsafe_auth;
 
 CREATE SCHEMA purchase;
 

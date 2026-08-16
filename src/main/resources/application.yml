@@ -3,9 +3,9 @@ spring:
     name: billsafe
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:host.docker.internal}:${DB_PORT:5432}/${DB_NAME:billsafe}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:admin123}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -15,7 +15,7 @@ spring:
   flyway:
     enabled: true
   jwt:
-    secret: 4jVh5i5GHR7piL6sjcOgjBbI9MqTWKDlmjFJEmXKdN5
+    secret: ${JWT_SECRET}
     expiration: 86400000
   logging:
     level:
@@ -49,8 +49,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: yugtank05@gmail.com
-    password: zqdizeuysfzugzja
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
