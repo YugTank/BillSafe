@@ -164,7 +164,7 @@ class AttachmentServiceTest {
         when(storageService.download("bills/test-file.pdf")).thenReturn(resource);
 
         // Act
-        Resource result = attachmentService.downloadAttachment(attachmentId);
+        Resource result = attachmentService.downloadAttachment(attachmentId, purchaseId);
 
         // Assert
         assertNotNull(result);
@@ -181,7 +181,7 @@ class AttachmentServiceTest {
 
         // Act & Assert
         assertThrows(AttachmentNotFoundException.class, () -> 
-            attachmentService.downloadAttachment(attachmentId)
+            attachmentService.downloadAttachment(attachmentId, purchaseId)
         );
 
         verify(storageService, never()).download(any());
