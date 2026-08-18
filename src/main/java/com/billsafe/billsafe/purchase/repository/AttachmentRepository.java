@@ -16,4 +16,6 @@ public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
     List<Attachment> findByPurchase(Purchase purchase);
 
     Optional<Attachment> findByIdAndPurchase_User(UUID id, User user);
+
+    Optional<Attachment> findByIdAndPurchase(UUID id, Purchase purchase);
 }

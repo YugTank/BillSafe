@@ -69,9 +69,10 @@ public class AttachmentService {
         )).toList();
     }
 
-    public Resource downloadAttachment(UUID attachmentId){
+    public Resource downloadAttachment(UUID purchaseId, UUID attachmentId){
         User user=currentUserService.getCurrentUser();
-        Attachment attachment=attachmentRepository.findByIdAndPurchase_User(attachmentId,user).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
+        Purchase purchase=purchaseRepository.getByIdAndUser(purchaseId, user).orElseThrow(()->new PurchaseNotFoundException("Purchase not found"));
+        Attachment attachment=attachmentRepository.findByIdAndPurchase(attachmentId, purchase).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
 
         return storageService.download(attachment.getFilePath());
     }
@@ -80,9 +81,10 @@ public class AttachmentService {
         return attachmentRepository.findById(attachmentId).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
     }
 
-    public void deleteAttachment(UUID attachmentId){
+    public void deleteAttachment(UUID purchaseId, UUID attachmentId){
         User user=currentUserService.getCurrentUser();
-        Attachment attachment=attachmentRepository.findByIdAndPurchase_User(attachmentId,user).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
+        Purchase purchase=purchaseRepository.getByIdAndUser(purchaseId, user).orElseThrow(()->new PurchaseNotFoundException("Purchase not found"));
+        Attachment attachment=attachmentRepository.findByIdAndPurchase(attachmentId, purchase).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
 
         storageService.delete(attachment.getFilePath());
         attachmentRepository.delete(attachment);

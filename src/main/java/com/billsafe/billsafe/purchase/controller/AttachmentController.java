@@ -30,17 +30,17 @@ public class AttachmentController {
     }
 
 
-    @GetMapping("/{attachmentId}/download")
-    public ResponseEntity<Resource> download(@PathVariable UUID attachmentId){
-        Resource resource=attachmentService.downloadAttachment(attachmentId);
+    @GetMapping("/{purchaseId}/attachments/{attachmentId}/download")
+    public ResponseEntity<Resource> download(@PathVariable UUID purchaseId, @PathVariable UUID attachmentId){
+        Resource resource=attachmentService.downloadAttachment(purchaseId, attachmentId);
         return ResponseEntity.ok()
                 .header("Content-Disposition", "attachment; filename=\""+attachmentService.findAttachmentById(attachmentId).getFileName()+ "\"")
                 .body(resource);
     }
 
-    @DeleteMapping("/{attachmentId}")
-    public ResponseEntity<Void> deleteAttachment(@PathVariable UUID attachmentId){
-        attachmentService.deleteAttachment(attachmentId);
+    @DeleteMapping("/{purchaseId}/attachments/{attachmentId}")
+    public ResponseEntity<Void> deleteAttachment(@PathVariable UUID purchaseId, @PathVariable UUID attachmentId){
+        attachmentService.deleteAttachment(purchaseId, attachmentId);
         return ResponseEntity.noContent().build();
     }
 }
