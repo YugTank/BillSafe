@@ -37,4 +37,10 @@ public class AttachmentController {
                 .header("Content-Disposition", "attachment; filename=\""+attachmentService.findAttachmentById(attachmentId).getFileName()+ "\"")
                 .body(resource);
     }
+
+    @DeleteMapping("/{attachmentId}")
+    public ResponseEntity<Void> deleteAttachment(@PathVariable UUID attachmentId){
+        attachmentService.deleteAttachment(attachmentId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -60,12 +60,19 @@ public class S3StorageService implements StorageService {
 
     @Override
     public void delete(String filePath) {
-        DeleteObjectRequest request = DeleteObjectRequest.builder()
-                .bucket(bucketName)
-                .key(filePath)
-                .build();
+        try {
+            DeleteObjectRequest request = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(filePath)
+                    .build();
 
-        s3Client.deleteObject(request);
+            s3Client.deleteObject(request);
+        } catch (Exception e) {
+            throw new FileStorageException(
+                    "Failed to delete file from S3: " + filePath,
+                    e
+            );
+        }
     }
 
     @Override

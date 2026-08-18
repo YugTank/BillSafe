@@ -79,4 +79,12 @@ public class AttachmentService {
     public Attachment findAttachmentById(UUID attachmentId) {
         return attachmentRepository.findById(attachmentId).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
     }
+
+    public void deleteAttachment(UUID attachmentId){
+        User user=currentUserService.getCurrentUser();
+        Attachment attachment=attachmentRepository.findByIdAndPurchase_User(attachmentId,user).orElseThrow(()->new AttachmentNotFoundException("Attachment not found"));
+
+        storageService.delete(attachment.getFilePath());
+        attachmentRepository.delete(attachment);
+    }
 }
